@@ -1,0 +1,7 @@
+console.log("hi world");
+
+function sendButton_onclick(){
+    console.log("my buton 1 click");
+    return 0;
+
+}

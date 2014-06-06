@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Document</title>
+    </head>
+    <body>
+
+      <div></div>
+
+      <p>Write your message here</p>
+      <textarea rows="1" cols="30" id="" style="resize:none">      </textarea>
+      <input type="button" value="Send" id="sendButton" onclick="return sendButton_onclick()">     </input>
+
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+      <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.js"></script>
+     <script src="script2.js"> </script>
+
+
+     
+
+    </body>
+</html>
