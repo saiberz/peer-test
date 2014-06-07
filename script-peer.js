@@ -1,16 +1,16 @@
-window.onload= function (){
+$( window ).ready(function() {
     var peer = new Peer({key: '11fmnald3g7j5rk9'});
     var DataRef = new Firebase('https://len.firebaseIO.com');
     var DataUsers = new Firebase('https://len.firebaseIO.com/users');
     var pushRef;
     var id = null;
     var conn = null;
-    var id2 = null;
+    var id2 = 
 
-    window.onbeforeunload=exitUser;
     $("#bStart").click(startConnection);
     $("#bSend").click(sendMessage);
-    $("#sendText").keypress(textChange);
+    $("#sendText").keypress(textChange);    
+    $( window ).unload(exitUser);
 
 
 
@@ -32,6 +32,7 @@ window.onload= function (){
 		// Will print 'hi!'
 		console.log(data);
 		sendButton_onclick(data,'other');
+		$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
 	    });
 	});
 
@@ -55,6 +56,7 @@ window.onload= function (){
 
 
     DataUsers.on('child_removed', function(e){
+	e = e.val();
 	$("#"+e.id).remove();
     });
 
@@ -98,10 +100,9 @@ window.onload= function (){
     function textChange(e){
 	var ENTER_KEY = 13;
 
-	if (e.keyCode === ENTER_KEY) {
+	if (e.keyCode === ENTER_KEY ) {
 	    sendMessage();
 	    $('.discussion').scrollTop($('.discussion')[0].scrollHeight);
-
 	}
 	
     };
@@ -118,8 +119,10 @@ window.onload= function (){
 	    sendButton_onclick(message,'self');
 	    console.log("right message "+message);
 	});   
-
+	
 	$("#sendText").val('');
     }
 
-};
+
+
+});
