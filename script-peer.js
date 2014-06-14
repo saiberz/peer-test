@@ -5,23 +5,35 @@ $( window ).ready(function() {
     var pushRef;
     var id = null;
     var conn = null;
-    var id2 = 
+    var id2 ;
+    var lastm = "99";
+    var newm = "";
 
     $("#bStart").click(startConnection);
     $("#bSend").click(sendMessage);
     $("#sendText").keypress(textChange);    
     $( window ).unload(exitUser);
+    $( "p" ).live( "click", showId);
 
 
+    var userName = prompt("please enter your name ");
+    
 
     peer.on('open', function(idp) {
 	id = idp;
 	pushRef = DataUsers.push();    
 	pushRef.set({
-	    id: idp
+	    userName : userName,
+	    id: id
 	});
 	console.log('My peer ID is: ' + id);
     });
+
+    function showId(){
+	var tx = $( this ).attr('id');
+	$( this ).css( "color","red" );
+	$("#id2Box").val(tx);
+    }
 
     function startConnection(){
 	id2 = $("#id2Box").val();
@@ -31,8 +43,7 @@ $( window ).ready(function() {
 	    conn.on('data', function(data){
 		// Will print 'hi!'
 		console.log(data);
-		sendButton_onclick(data,'other');
-		$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+		send(data,'other');
 	    });
 	});
 
@@ -48,7 +59,7 @@ $( window ).ready(function() {
 	
 	if (id != e.id)
 	    var $newp = $("<p/>",{
-		text : e.id,
+		text : e.userName,
 		id : e.id
 	    }).appendTo("#boxUsers");
 
@@ -64,8 +75,9 @@ $( window ).ready(function() {
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
 
-    function sendButton_onclick(message2,who){
+    function send(message2,who){
 	var message = $("#sendText").val();
+
 	var $newli = $("<li/>",{
 	    class: who // self
 	}).appendTo(".discussion");
@@ -90,12 +102,13 @@ $( window ).ready(function() {
 	    text : "hora"
 	}).appendTo($newdiv2);
 
-    }
+	$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+	lastm = message;
 
-    function minimize(){
-	$(".module").hide();
-    }
 
+
+
+    }
 
     function textChange(e){
 	var ENTER_KEY = 13;
@@ -109,14 +122,13 @@ $( window ).ready(function() {
 
 
     function sendMessage(){
-	console.log("envian");
-	id2 = $("#id2Box").val();
-	conn = peer.connect(id2);
 	var message = $("#sendText").val();
+	id2 = $("#id2Box").val();
 
+	conn = peer.connect(id2);
 	conn.on('open', function(){
 	    conn.send(message);
-	    sendButton_onclick(message,'self');
+	    send(message,'self');
 	    console.log("right message "+message);
 	});   
 	
